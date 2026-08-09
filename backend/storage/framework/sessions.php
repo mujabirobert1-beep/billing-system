@@ -1,0 +1,3 @@
+<?php
+
+// storage sessions placeholder

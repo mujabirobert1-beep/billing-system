@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'name' => env('APP_NAME', 'CloudiFi'),
+    'env' => env('APP_ENV', 'local'),
+    'debug' => env('APP_DEBUG', true),
+    'url' => env('APP_URL', 'http://localhost'),
+    'timezone' => 'Africa/Kampala',
+    'locale' => 'en',
+    'key' => env('APP_KEY'),
+    'cipher' => 'AES-256-CBC',
+    'providers' => [
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\Routing\RoutingServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+    ],
+    'aliases' => [
+        'App' => Illuminate\Support\Facades\App::class,
+        'Cache' => Illuminate\Support\Facades\Cache::class,
+        'Config' => Illuminate\Support\Facades\Config::class,
+        'DB' => Illuminate\Support\Facades\DB::class,
+        'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Queue' => Illuminate\Support\Facades\Queue::class,
+        'Route' => Illuminate\Support\Facades\Route::class,
+        'URL' => Illuminate\Support\Facades\URL::class,
+    ],
+];

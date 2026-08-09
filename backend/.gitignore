@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+/.env
+/storage/*.key
+/bootstrap/cache
+/storage/framework/cache/data
+/storage/logs
+/storage/framework/sessions
+/storage/framework/views

@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  username  String   @unique
+  createdAt DateTime @default(now())
+  payments  Payment[]
+  vouchers  Voucher[]
+}
+
+model Payment {
+  id         String   @id @default(cuid())
+  reference  String   @unique
+  amount     Int
+  currency   String
+  phone      String
+  status     String
+  receivedAt DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+  voucher    Voucher? @relation(fields: [voucherId], references: [id])
+  voucherId  String?
+}
+
+model Voucher {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  username   String
+  amount     Int
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  usedAt     DateTime?
+  payment    Payment? @relation
+}
+
+model MikrotikDevice {
+  id          String   @id @default(cuid())
+  host        String
+  port        Int      @default(8728)
+  username    String
+  password    String
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model Reseller {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  sites     Site[]
+  createdAt DateTime @default(now())
+}
+
+model Site {
+  id         String   @id @default(cuid())
+  name       String
+  location   String?
+  address    String?
+  reseller   Reseller @relation(fields: [resellerId], references: [id])
+  resellerId String
+  routers    Router[]
+  createdAt  DateTime @default(now())
+}
+
+model Router {
+  id             String   @id @default(cuid())
+  identity       String   @unique
+  name           String
+  ip             String?
+  status         String   @default("offline")
+  lastSeen       DateTime?
+  cpu            Float?
+  ram            Float?
+  uptime         Int?
+  lastCheckedAt  DateTime?
+  lastAlertSentAt DateTime?
+  site           Site     @relation(fields: [siteId], references: [id])
+  siteId         String
+  createdAt      DateTime @default(now())
+}
+
+model Reseller {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  momoWallet  String?
+  sites       Site[]
+  createdAt   DateTime @default(now())
+}
+
+model Site {
+  id         String   @id @default(cuid())
+  reseller   Reseller @relation(fields: [resellerId], references: [id])
+  resellerId String
+  name       String
+  location   String?
+  routers    Router[]
+  createdAt  DateTime @default(now())
+}
+
+model Customer {
+  id                         String       @id @default(cuid())
+  phone                      String       @unique
+  name                       String
+  email                      String       @unique
+  emailVerified              Boolean      @default(false)
+  verificationCode           String?
+  verificationCodeExpiresAt  DateTime?
+  payments                   Payment[]
+  vouchers                   Voucher[]
+  dataUsage                  DataUsage[]
+  createdAt                  DateTime     @default(now())
+}
+
+model Payment {
+  id         String   @id @default(cuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  amount     Int
+  reference  String   @unique
+  status     String
+  momoName   String?
+  createdAt  DateTime @default(now())
+}
+
+model Voucher {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+  profile    String?
+  router     Router?   @relation(fields: [routerId], references: [id])
+  routerId   String?
+  status     String
+  createdAt  DateTime @default(now())
+}
+
+model DataUsage {
+  id           String   @id @default(cuid())
+  customer     Customer @relation(fields: [customerId], references: [id])
+  customerId   String
+  router       Router   @relation(fields: [routerId], references: [id])
+  routerId     String
+  bytesUp      Int
+  bytesDown    Int
+  online       Boolean
+  createdAt    DateTime @default(now())
+}
+
+model DataUsage {
+  id            String   @id @default(cuid())
+  customerName  String
+  phone         String
+  voucherCode   String
+  router        Router   @relation(fields: [routerId], references: [id])
+  routerId      String
+  bytesUp       Int
+  bytesDown     Int
+  sessionStart  DateTime
+  sessionEnd    DateTime
+  createdAt     DateTime @default(now())
+}

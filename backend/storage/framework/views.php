@@ -1,0 +1,3 @@
+<?php
+
+// storage views placeholder
